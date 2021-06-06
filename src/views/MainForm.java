@@ -1,10 +1,13 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
@@ -17,10 +20,9 @@ import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 import controllers.UserController;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class MainForm {
 
@@ -53,7 +55,7 @@ public class MainForm {
 		frmChatUfg.setResizable(false);
 		frmChatUfg.getContentPane().setBackground(new Color(240, 248, 255));
 		frmChatUfg.setBounds(100, 100, 305, 547);
-		frmChatUfg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmChatUfg.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frmChatUfg.getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
@@ -92,18 +94,19 @@ public class MainForm {
 		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JLabel lblNewLabel_3_2 = new JLabel("");
+		lblNewLabel_3_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_1.add(lblNewLabel_3_2);
 		lblNewLabel_3_2.setIcon(new ImageIcon(MainForm.class.getResource("/assets/info.png")));
 		lblNewLabel_3_2.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JLabel lblNewLabel_3_1_1 = new JLabel("");
+		lblNewLabel_3_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblNewLabel_3_1_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				UserController.soc.encerrar();
 				frmChatUfg.dispose();
 				System.exit(2);
-				
 
 			}
 		});
@@ -126,9 +129,11 @@ public class MainForm {
 			public void mouseClicked(MouseEvent e) {
 
 				if (e.getClickCount() == 2) {
-					new ChatForm();
-					int index = list.locationToIndex(e.getPoint());
-					UserController.conectarUser();
+					if(!ChatForm.isOpened) {
+						new ChatForm();
+						
+						UserController.conectarUser();
+					}
 
 				}
 			}
@@ -139,10 +144,12 @@ public class MainForm {
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] { "\uD83D\uDEB9   Programa\u00E7\u00E3o Orientada a Objetos" };
 
+			@Override
 			public int getSize() {
 				return values.length;
 			}
 
+			@Override
 			public Object getElementAt(int index) {
 				return values[index];
 			}

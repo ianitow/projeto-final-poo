@@ -8,6 +8,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import views.ChatForm;
+
 public class Receiver implements Runnable {
 
 	private Scanner sc;
@@ -22,9 +24,17 @@ public class Receiver implements Runnable {
 	public static void setJTextArea(JTextArea jtext) {
 		messageBox = jtext;
 	}
+
 	public static void setTree(JTree jtree) {
 		tree = jtree;
 	}
+
+	public static int countOnline(String msg) {
+		String splitted[] = msg.split(":");
+		return Utils.fromString(splitted[1]).size();
+
+	}
+
 	public static void updateWhoOnline(String msg) {
 		String splitted[] = msg.split(":");
 		System.out.println(splitted[0]);
@@ -33,7 +43,7 @@ public class Receiver implements Runnable {
 				for (String nome : Utils.fromString(splitted[1])) {
 					add(new DefaultMutableTreeNode(nome));
 				}
-				
+
 			}
 		}));
 	}
@@ -46,13 +56,15 @@ public class Receiver implements Runnable {
 		while (sc.hasNextLine()) {
 			if (messageBox != null) {
 				String msg = sc.nextLine();
-			
-				if(msg.contains("[SERVER]WHO_ONLINE")) {
+
+				if (msg.contains("[SERVER]WHO_ONLINE")) {
 					Receiver.updateWhoOnline(msg);
-					
-				}else {
-					messageBox.append(msg+"\n");
-					UserController.soc.sendSomething("WHO_ONLINE");
+					ChatForm.getJFrame().setTitle(String.format(
+							"Chat - Programação orientada a objetos - %d usuários online", Receiver.countOnline(msg)));
+
+				} else {
+					messageBox.append(msg + "\n");
+					UserController.soc.sendToServer("WHO_ONLINE");
 				}
 			}
 		}

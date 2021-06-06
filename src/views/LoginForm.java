@@ -1,10 +1,9 @@
 package views;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 import controllers.UserController;
 import models.User;
@@ -30,17 +30,20 @@ public class LoginForm {
 
 	/**
 	 * Launch the application.
-	 * @throws UnsupportedLookAndFeelException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws ClassNotFoundException 
+	 * 
+	 * @throws UnsupportedLookAndFeelException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws ClassNotFoundException
 	 */
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	
+
 		UIManager.put("Tree.leafIcon", new ImageIcon(LoginForm.class.getResource("/assets/162294060624368557.png")));
 
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					LoginForm window = new LoginForm();
@@ -64,15 +67,13 @@ public class LoginForm {
 	 */
 	private void initialize() {
 
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		frmChatUfg = new JFrame();
 		frmChatUfg.setTitle("Chat UFG 1.0");
 		frmChatUfg.setResizable(false);
-		frmChatUfg.setAlwaysOnTop(true);
 		frmChatUfg.setBounds(100, 100, 300, 394);
-		frmChatUfg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmChatUfg.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-frmChatUfg.setLocationRelativeTo(null);
+		frmChatUfg.setLocationRelativeTo(null);
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(0, 10, 286, 146);
@@ -101,16 +102,45 @@ frmChatUfg.setLocationRelativeTo(null);
 
 		JButton btnLogin = new JButton("Entrar");
 		btnLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (txtNome.getText().length() < 3 || txtCurso.getText().length() < 1
-						|| txtMatricula.getText().length() < 3) {
-					JOptionPane.showMessageDialog(null, "Todos os campos são necessários. Min: 4 caractéres");
-				} else {
-					new UserController(
-							new User(txtNome.getText(), Integer.parseInt(txtMatricula.getText()), txtCurso.getText()));
-					frmChatUfg.dispose();
-					new MainForm();
+
+				if (txtNome.getText().length() < 4 || txtCurso.getText().length() < 4
+						|| txtMatricula.getText().length() < 4) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são necessários. Min: 4 caractéres", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				} //
+				if (!Pattern.matches("^\\p{L}+[\\p{L}\\p{Z}\\p{P}]{0,}", txtNome.getText())) {
+					JOptionPane.showMessageDialog(null, "O campo nome aceita apenas letras", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					return;
 				}
+				if (!Pattern.matches("^\\p{L}+[\\p{L}\\p{Z}\\p{P}]{0,}", txtCurso.getText())) {
+					JOptionPane.showMessageDialog(null, "O campo curso aceita apenas letras", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (!Pattern.matches("\\d*", txtMatricula.getText())) {
+					JOptionPane.showMessageDialog(null, "O campo matricula aceita apenas números", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				if (txtNome.getText().length() < 4 || txtCurso.getText().length() < 4
+						|| txtMatricula.getText().length() < 4) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são necessários. Min: 4 caractéres", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				new UserController(
+						new User(txtNome.getText(), Integer.parseInt(txtMatricula.getText()), txtCurso.getText()));
+				frmChatUfg.dispose();
+				new MainForm();
+				JOptionPane.showMessageDialog(null,
+						String.format("Bem vindo %s, respeite todos os membros!!", txtNome.getText()));
+
 			}
 		});
 		btnLogin.setBounds(49, 141, 181, 23);

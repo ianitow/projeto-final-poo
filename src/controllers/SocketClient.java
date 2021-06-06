@@ -21,18 +21,17 @@ public class SocketClient {
 		}
 		new Thread(r).start();
 	}
-	
-	public void showAlertToAll(String text) {
-		output.println(text);
-	}
-	public void enviarTexto(String text) {
-		output.println(UserController.getUserInstance().getNome() + " diz: " + text );
-	}
-	public void sendSomething(String text) {
-		output.println("[SERVER]"+text);
-	}
-	
 
+	public void sendToServer(String text) {
+		output.println("[SERVER]" + text);
+	}
+
+	public void sendToServer(String text, boolean isUser) {
+		if (isUser)
+			output.println(UserController.getUserInstance().getNome() + " diz: " + text);
+		else
+			output.println(text);
+	}
 
 	public void execute(Socket client) throws IOException {
 
@@ -41,7 +40,6 @@ public class SocketClient {
 		// Thread recebe mensagem do servidor
 		this.startReceiver();
 		output = new PrintStream(socketClient.getOutputStream());
-
 
 	}
 
@@ -60,7 +58,7 @@ public class SocketClient {
 		secureClose(output);
 		secureClose(socketClient);
 		secureClose(sc);
-	
+
 	}
 
 }

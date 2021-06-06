@@ -31,8 +31,8 @@ public class UserController {
 			// Conecta o cliente com o servidor
 			clientSocket = new Socket(SERVER_INFO.SERVER_ADDRESS.get(), Integer.parseInt(SERVER_INFO.PORT.get()));
 			soc.execute(clientSocket);
-			soc.showAlertToAll(userInstance.getNome() + " entrou no chat");
-			soc.sendSomething("ADD_USER:" + userInstance.getNome());
+			soc.sendToServer(userInstance.getNome() + " entrou no chat", false);
+			soc.sendToServer("ADD_USER:" + userInstance.getNome());
 		} catch (IOException e) {
 			e.getMessage();
 		}
@@ -40,13 +40,13 @@ public class UserController {
 
 	public void encerrar() {
 
-		UserController.soc.showAlertToAll(userInstance.getNome() + " saiu do chat.");
-		UserController.soc.sendSomething("REMOVE_USER:" + userInstance.getNome());
+		UserController.soc.sendToServer(userInstance.getNome() + " saiu do chat.", false);
+		UserController.soc.sendToServer("REMOVE_USER:" + userInstance.getNome());
 		UserController.soc.encerrar();
 
 	}
 
 	public void enviarMensagem(String mensagem) {
-		UserController.soc.enviarTexto(mensagem.trim());
+		UserController.soc.sendToServer(mensagem.trim(), true);
 	}
 }
