@@ -38,6 +38,9 @@ public class MainForm {
 	 */
 	private void initialize() {
 		frmChatUfg = new JFrame();
+
+		;
+		frmChatUfg.setAlwaysOnTop(true);
 		frmChatUfg.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -78,15 +81,10 @@ public class MainForm {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(240, 248, 255));
-		panel_1.setBounds(151, 81, 161, 40);
+		panel_1.setBounds(177, 84, 112, 40);
 		frmChatUfg.getContentPane().add(panel_1);
 		FlowLayout fl_panel_1 = new FlowLayout(FlowLayout.LEADING, 10, 8);
 		panel_1.setLayout(fl_panel_1);
-
-		JLabel lblNewLabel_3 = new JLabel("");
-		panel_1.add(lblNewLabel_3);
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setIcon(new ImageIcon(MainForm.class.getResource("/assets/plus.png")));
 
 		JLabel lblNewLabel_3_1 = new JLabel("");
 		panel_1.add(lblNewLabel_3_1);
@@ -99,6 +97,16 @@ public class MainForm {
 		lblNewLabel_3_2.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JLabel lblNewLabel_3_1_1 = new JLabel("");
+		lblNewLabel_3_1_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				UserController.soc.encerrar();
+				frmChatUfg.dispose();
+				System.exit(2);
+				
+
+			}
+		});
 		lblNewLabel_3_1_1.setIcon(new ImageIcon(MainForm.class.getResource("/assets/logout.png")));
 		lblNewLabel_3_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_1.add(lblNewLabel_3_1_1);
@@ -121,7 +129,7 @@ public class MainForm {
 					new ChatForm();
 					int index = list.locationToIndex(e.getPoint());
 					UserController.conectarUser();
-				
+
 				}
 			}
 		});
@@ -144,9 +152,10 @@ public class MainForm {
 		JLabel lblNewLabel_5 = new JLabel("Minhas Salas");
 		scrollPane.setColumnHeaderView(lblNewLabel_5);
 
-		JLabel lblNewLabel_2_1 = new JLabel(String.valueOf(UserController.getUserInstance().getMatricula()));
+		JLabel lblNewLabel_2_1 = new JLabel(
+				"Matricula: " + String.valueOf(UserController.getUserInstance().getMatricula()));
 		lblNewLabel_2_1.setFont(new Font("Open Sans Light", Font.PLAIN, 10));
-		lblNewLabel_2_1.setBounds(120, 48, 54, 14);
+		lblNewLabel_2_1.setBounds(120, 48, 130, 14);
 		frmChatUfg.getContentPane().add(lblNewLabel_2_1);
 	}
 }

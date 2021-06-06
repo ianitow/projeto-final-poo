@@ -37,7 +37,9 @@ public class LoginForm {
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		
+	
+		UIManager.put("Tree.leafIcon", new ImageIcon(LoginForm.class.getResource("/assets/162294060624368557.png")));
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

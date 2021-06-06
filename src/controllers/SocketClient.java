@@ -26,7 +26,7 @@ public class SocketClient {
 		output.println(text);
 	}
 	public void enviarTexto(String text) {
-		output.println(UserController.getUserInstance().getNome() + " diz:" + text );
+		output.println(UserController.getUserInstance().getNome() + " diz: " + text );
 	}
 	public void sendSomething(String text) {
 		output.println("[SERVER]"+text);
