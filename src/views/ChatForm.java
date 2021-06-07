@@ -30,6 +30,7 @@ import javax.swing.text.DefaultCaret;
 
 import controllers.ReceiverController;
 import controllers.UserController;
+import java.awt.Point;
 
 public class ChatForm {
 
