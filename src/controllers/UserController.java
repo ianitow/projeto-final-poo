@@ -1,16 +1,11 @@
 package controllers;
 
-import java.awt.Cursor;
-import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-
 import javax.swing.JOptionPane;
 
 import models.SERVER_INFO;
 import models.UserModel;
 import views.ChatForm;
-import views.MainForm;
 
 public class UserController {
 	private static UserModel userInstance;
@@ -50,7 +45,7 @@ public class UserController {
 
 	}
 
-	public void encerrar() {
+	public static void encerrar() {
 
 		UserController.soc.sendToServer(userInstance.getNome() + " saiu do chat.", false);
 		UserController.soc.sendToServer("REMOVE_USER:" + userInstance.getNome());

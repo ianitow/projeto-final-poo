@@ -8,7 +8,6 @@ import javax.swing.JEditorPane;
 import javax.swing.JTree;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument.ElementSpec;
-import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.tree.DefaultMutableTreeNode;

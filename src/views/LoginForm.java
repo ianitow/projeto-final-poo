@@ -19,7 +19,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import controllers.UserController;
-import models.UserModel;
 
 public class LoginForm {
 

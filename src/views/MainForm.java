@@ -44,10 +44,10 @@ public class MainForm {
 
 		;
 		frmChatUfg.addWindowListener(new WindowAdapter() {
+		
 			@Override
-			public void windowClosed(WindowEvent e) {
-				UserController.getInstance().encerrar();
-				System.exit(2);
+			public void windowClosing(WindowEvent e) {
+				UserController.encerrar();
 			}
 		});
 		frmChatUfg.setVisible(true);
@@ -106,7 +106,7 @@ public class MainForm {
 		lblNewLabel_3_1_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				UserController.soc.encerrar();
+				UserController.encerrar();
 				frmChatUfg.dispose();
 				System.exit(2);
 
