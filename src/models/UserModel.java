@@ -1,11 +1,11 @@
 package models;
 
-public class User {
+public class UserModel {
 	private String nome;
 	private int matricula;
 	private String curso;
 
-	public User(String nome, Integer matricula, String curso) {
+	public UserModel(String nome, Integer matricula, String curso) {
 		this.nome = nome;
 		this.matricula = matricula;
 		this.curso = curso;

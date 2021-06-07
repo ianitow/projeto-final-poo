@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -18,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -26,12 +28,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.text.DefaultCaret;
 
-import controllers.Receiver;
+import controllers.ReceiverController;
 import controllers.UserController;
 
 public class ChatForm {
-	static Boolean isOpened = false;
-	static JFrame  frmChatMenma;
+
+	static JFrame frmChatMenma;
+	public static Boolean isOpened = false;
 
 	public void sendMessageInterface(String text) {
 
@@ -61,16 +64,8 @@ public class ChatForm {
 		frmChatMenma = new JFrame();
 		ChatForm.isOpened = true;
 		SwingUtilities.updateComponentTreeUI(frmChatMenma);
-		frmChatMenma.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				frmChatMenma.dispose();
-				UserController.getInstance().encerrar();
-				ChatForm.isOpened = false;
-			}
-		});
 
-		frmChatMenma.setVisible(true);
+		frmChatMenma.setVisible(false);
 
 		frmChatMenma.getContentPane().setBackground(new Color(240, 248, 255));
 		frmChatMenma.getContentPane().setLayout(null);
@@ -88,18 +83,16 @@ public class ChatForm {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(120, 11, 560, 278);
 		frmChatMenma.getContentPane().add(scrollPane);
-
-		JTextArea txtMessageBox = new JTextArea();
+		JTextPane txtMessageBox = new JTextPane();
+		txtMessageBox.setContentType("text/html");
+		txtMessageBox.setText("<html> oi</html>\t");
 		DefaultCaret caret = (DefaultCaret) txtMessageBox.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		scrollPane.setViewportView(txtMessageBox);
 
-		txtMessageBox.setRows(10);
-		txtMessageBox.setWrapStyleWord(true);
-
 		txtMessageBox.setFont(new Font("Palatino Linotype", Font.PLAIN, 14));
 		txtMessageBox.setEditable(false);
-		txtMessageBox.setLineWrap(true);
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(0, 0, 561, 105);
 		panel_2.add(scrollPane_1);
@@ -134,7 +127,7 @@ public class ChatForm {
 		});
 
 		scrollPane_1.setViewportView(textArea);
-		Receiver.setJTextArea(txtMessageBox);
+		ReceiverController.setContainerMessages(txtMessageBox);
 
 		JLabel lblChat = new JLabel("Chat");
 		scrollPane.setColumnHeaderView(lblChat);
@@ -150,7 +143,7 @@ public class ChatForm {
 		JTree tree = new JTree();
 		tree.setRootVisible(false);
 		tree.setForeground(Color.BLACK);
-		Receiver.setTree(tree);
+		ReceiverController.setTree(tree);
 
 		scrollPane_2.setViewportView(tree);
 		frmChatMenma.setResizable(false);
@@ -158,7 +151,29 @@ public class ChatForm {
 		frmChatMenma.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		frmChatMenma.setLocationRelativeTo(null);
+		frmChatMenma.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				frmChatMenma.dispose();
+				UserController.getInstance().encerrar();
+				ChatForm.isOpened = false;
+				int option = JOptionPane.showConfirmDialog(null, "Gostaria de salvar as mensagens?", "Deseja salvar?",
+						JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					try {
+						FileWriter out = new FileWriter("conversas.html");
+						out.write(txtMessageBox.getText());
+						out.close();
+						JOptionPane.showMessageDialog(null, "Salvo em: conversas.html");
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(null, "ERRO AO SALVAR!!");
+						e1.printStackTrace();
+					}
+				}
 
-		
+				txtMessageBox.setText("");
+			}
+		});
+
 	}
 }

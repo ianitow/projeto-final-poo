@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -42,7 +43,6 @@ public class MainForm {
 		frmChatUfg = new JFrame();
 
 		;
-		frmChatUfg.setAlwaysOnTop(true);
 		frmChatUfg.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -54,7 +54,7 @@ public class MainForm {
 		frmChatUfg.setTitle("Chat UFG - Logado");
 		frmChatUfg.setResizable(false);
 		frmChatUfg.getContentPane().setBackground(new Color(240, 248, 255));
-		frmChatUfg.setBounds(100, 100, 305, 547);
+		frmChatUfg.setBounds(100, 100, 308, 550);
 		frmChatUfg.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frmChatUfg.getContentPane().setLayout(null);
 
@@ -83,17 +83,19 @@ public class MainForm {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(240, 248, 255));
-		panel_1.setBounds(177, 84, 112, 40);
+		panel_1.setBounds(214, 84, 75, 40);
 		frmChatUfg.getContentPane().add(panel_1);
 		FlowLayout fl_panel_1 = new FlowLayout(FlowLayout.LEADING, 10, 8);
 		panel_1.setLayout(fl_panel_1);
 
-		JLabel lblNewLabel_3_1 = new JLabel("");
-		panel_1.add(lblNewLabel_3_1);
-		lblNewLabel_3_1.setIcon(new ImageIcon(MainForm.class.getResource("/assets/config.png")));
-		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-
 		JLabel lblNewLabel_3_2 = new JLabel("");
+		lblNewLabel_3_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null,
+						"<html><b>Equipe</b><br>Iaan Mesquita de Souza - 201904219<br>Wallace Patrick Lima Cardoso - 202003623<br>Marcos Paulo da Silva Santiago - 201802844<br><html> ");
+			}
+		});
 		lblNewLabel_3_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_1.add(lblNewLabel_3_2);
 		lblNewLabel_3_2.setIcon(new ImageIcon(MainForm.class.getResource("/assets/info.png")));
@@ -131,8 +133,16 @@ public class MainForm {
 				if (e.getClickCount() == 2) {
 					if(!ChatForm.isOpened) {
 						new ChatForm();
+						try
+						{
+							frmChatUfg.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+							UserController.conectarUser();
+							
+						}finally {
+							frmChatUfg.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						}
 						
-						UserController.conectarUser();
+						
 					}
 
 				}

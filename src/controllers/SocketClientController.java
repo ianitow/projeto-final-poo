@@ -6,20 +6,22 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class SocketClient {
+import models.ServerClosedException;
+
+public class SocketClientController {
 
 	private Socket socketClient;
 	private PrintStream output;
 	private Scanner sc;
-	private Receiver r;
+	private ReceiverController receiver;
 
 	public void startReceiver() {
 		try {
-			r = new Receiver(this.socketClient.getInputStream());
+			receiver = new ReceiverController(this.socketClient.getInputStream());
 		} catch (IOException e) {
 			e.getMessage();
 		}
-		new Thread(r).start();
+		new Thread(receiver).start();
 	}
 
 	public void sendToServer(String text) {
@@ -28,18 +30,20 @@ public class SocketClient {
 
 	public void sendToServer(String text, boolean isUser) {
 		if (isUser)
-			output.println(UserController.getUserInstance().getNome() + " diz: " + text);
+			output.println("<b>"+UserController.getUserInstance().getNome() + "</b> diz: " + text);
 		else
 			output.println(text);
 	}
 
-	public void execute(Socket client) throws IOException {
-
-		this.socketClient = client;
-		System.out.println("Connected");
-		// Thread recebe mensagem do servidor
-		this.startReceiver();
-		output = new PrintStream(socketClient.getOutputStream());
+	public void execute(Socket client) throws ServerClosedException {
+		try {
+			this.socketClient = client;
+			// Thread recebe mensagem do servidor
+			this.startReceiver();
+			output = new PrintStream(socketClient.getOutputStream());
+		} catch (IOException e) {
+			throw new ServerClosedException();
+		}
 
 	}
 

@@ -1,23 +1,29 @@
 package controllers;
 
+import java.awt.Cursor;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.swing.JOptionPane;
 
 import models.SERVER_INFO;
-import models.User;
+import models.UserModel;
+import views.ChatForm;
+import views.MainForm;
 
 public class UserController {
-	private static User userInstance;
+	private static UserModel userInstance;
 	private static UserController instance;
 	private static Socket clientSocket;
-	public static SocketClient soc = new SocketClient();
+	public static SocketClientController soc = new SocketClientController();
 
-	public UserController(User user) {
-		userInstance = user;
+	public UserController(String nome, int matricula, String curso) {
+		userInstance = new UserModel(nome,matricula,curso);
 		instance = this;
 	}
 
-	public static User getUserInstance() {
+	public static UserModel getUserInstance() {
 		return userInstance;
 	}
 
@@ -33,9 +39,15 @@ public class UserController {
 			soc.execute(clientSocket);
 			soc.sendToServer(userInstance.getNome() + " entrou no chat", false);
 			soc.sendToServer("ADD_USER:" + userInstance.getNome());
-		} catch (IOException e) {
-			e.getMessage();
+			ChatForm.getJFrame().setVisible(true);
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage(), "Não conectado!", JOptionPane.ERROR_MESSAGE);
+			ChatForm.isOpened = false;
+			ChatForm.getJFrame().dispose();
+		
 		}
+
 	}
 
 	public void encerrar() {

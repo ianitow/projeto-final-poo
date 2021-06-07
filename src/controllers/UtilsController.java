@@ -2,7 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 
-public class Utils {
+public class UtilsController {
 
 	public static ArrayList<String> fromString(String string) {
 		String[] strings = string.replace("[", "").replace("]", "").split(", ");

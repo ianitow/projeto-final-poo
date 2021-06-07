@@ -19,7 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import controllers.UserController;
-import models.User;
+import models.UserModel;
 
 public class LoginForm {
 
@@ -49,7 +49,7 @@ public class LoginForm {
 					LoginForm window = new LoginForm();
 					window.frmChatUfg.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "ERROR: "+e.getMessage());
 				}
 			}
 		});
@@ -135,7 +135,7 @@ public class LoginForm {
 				}
 
 				new UserController(
-						new User(txtNome.getText(), Integer.parseInt(txtMatricula.getText()), txtCurso.getText()));
+						txtNome.getText(), Integer.parseInt(txtMatricula.getText()), txtCurso.getText());
 				frmChatUfg.dispose();
 				new MainForm();
 				JOptionPane.showMessageDialog(null,
