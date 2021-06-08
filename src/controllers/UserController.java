@@ -37,7 +37,7 @@ public class UserController {
 			ChatForm.getJFrame().setVisible(true);
 		
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage(), "Não conectado!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "ERRO: " + e.getMessage(), "Não conectado! Servidor Offline!!", JOptionPane.ERROR_MESSAGE);
 			ChatForm.isOpened = false;
 			ChatForm.getJFrame().dispose();
 		
@@ -49,6 +49,7 @@ public class UserController {
 
 		UserController.soc.sendToServer(userInstance.getNome() + " saiu do chat.", false);
 		UserController.soc.sendToServer("REMOVE_USER:" + userInstance.getNome());
+		UserController.soc.sendToServer("WHO_ONLINE");
 		UserController.soc.encerrar();
 
 	}

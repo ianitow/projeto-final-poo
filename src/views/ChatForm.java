@@ -154,8 +154,8 @@ public class ChatForm {
 		frmChatMenma.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				UserController.encerrar();
 				frmChatMenma.dispose();
-				UserController.getInstance().encerrar();
 				ChatForm.isOpened = false;
 				int option = JOptionPane.showConfirmDialog(null, "Gostaria de salvar as mensagens?", "Deseja salvar?",
 						JOptionPane.YES_NO_OPTION);

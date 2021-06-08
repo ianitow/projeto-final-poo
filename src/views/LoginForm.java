@@ -132,6 +132,16 @@ public class LoginForm {
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
+				if (txtMatricula.getText().length() > 11) {
+					JOptionPane.showMessageDialog(null, "Campos \"txtMatricula\" muito grande. Max: 11 caractéres", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (txtNome.getText().length() > 15 ) {
+					JOptionPane.showMessageDialog(null, "Campos \"txtNome\" muito grande. Max: 20 caractéres", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 
 				new UserController(
 						txtNome.getText(), Integer.parseInt(txtMatricula.getText()), txtCurso.getText());
